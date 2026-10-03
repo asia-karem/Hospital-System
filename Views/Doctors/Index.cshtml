@@ -1,0 +1,119 @@
+﻿@model List<HospitalSystem.Models.Doctor>
+
+@{
+    ViewData["Title"] = "Doctors";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">Our Doctors</h2>
+
+    <!-- Filters -->
+    <form method="get" class="row mb-4">
+
+        <div class="col-md-4">
+            <input type="text"
+                   name="doctorName"
+                   value="@ViewBag.DoctorName"
+                   class="form-control"
+                   placeholder="Search by doctor name" />
+        </div>
+
+        <div class="col-md-4">
+            <select name="specialization" class="form-control">
+
+                <option value="">All Specializations</option>
+
+                @foreach (var item in ViewBag.Specializations)
+                {
+                    <option value="@item"
+                            selected="@(ViewBag.Specialization == item)">
+                        @item
+                    </option>
+                }
+
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
+        </div>
+
+    </form>
+
+
+    <!-- Doctors -->
+    <div class="row">
+
+        @foreach (var doctor in Model)
+        {
+            <div class="col-md-4 mb-4">
+
+                <div class="card shadow">
+
+                    <img src="~/images/doctors/@doctor.Image"
+                         class="card-img-top"
+                         style="height:250px; object-fit:cover;" />
+
+                    <div class="card-body">
+
+                        <h5 class="card-title">
+                            Dr. @doctor.Name
+                        </h5>
+
+                        <p class="card-text">
+                            @doctor.Specialization
+                        </p>
+
+                        <a asp-controller="Appointments"
+                           asp-action="Book"
+                           asp-route-doctorId="@doctor.Id"
+                           class="btn btn-success">
+                            Book Appointment
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+
+    <!-- Pagination -->
+    <div class="text-center mt-4">
+
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <a class="btn btn-secondary"
+               asp-action="Index"
+               asp-route-page="@(ViewBag.CurrentPage - 1)"
+               asp-route-doctorName="@ViewBag.DoctorName"
+               asp-route-specialization="@ViewBag.Specialization">
+                Previous
+            </a>
+        }
+
+        <span class="mx-3">
+            Page @ViewBag.CurrentPage
+            of @ViewBag.TotalPages
+        </span>
+
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <a class="btn btn-secondary"
+               asp-action="Index"
+               asp-route-page="@(ViewBag.CurrentPage + 1)"
+               asp-route-doctorName="@ViewBag.DoctorName"
+               asp-route-specialization="@ViewBag.Specialization">
+                Next
+            </a>
+        }
+
+    </div>
+
+</div>

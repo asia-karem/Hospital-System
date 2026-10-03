@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Hospital Appointment System";
+}
+
+<div class="container text-center mt-5">
+
+    <h1 class="mb-4">Hospital Appointment System</h1>
+
+    <a asp-controller="Doctors"
+       asp-action="Index"
+       class="btn btn-primary btn-lg me-2">
+        Make Appointment
+    </a>
+
+    <a asp-controller="Appointments"
+       asp-action="Index"
+       class="btn btn-success btn-lg">
+        View Appointments
+    </a>
+
