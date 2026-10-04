@@ -1,20 +1,63 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Hospital Appointment System";
 }
 
-<div class="container text-center mt-5">
+<div class="home-page">
 
-    <h1 class="mb-4">Hospital Appointment System</h1>
+    <div class="hero-content">
 
-    <a asp-controller="Doctors"
-       asp-action="Index"
-       class="btn btn-primary btn-lg me-2">
-        Make Appointment
-    </a>
+        <div class="medical-logo">
+            <span>+</span>
+        </div>
 
-    <a asp-controller="Appointments"
-       asp-action="Index"
-       class="btn btn-success btn-lg">
-        View Appointments
-    </a>
+        <p class="welcome-text">WELCOME TO OUR HOSPITAL</p>
 
+        <h1>
+            Hospital
+            <span>Appointment System</span>
+        </h1>
+
+        <p class="hero-description">
+            A simple and secure way to book your medical appointments
+            and manage your visits with ease.
+        </p>
+
+        <div class="home-buttons">
+
+            <a asp-controller="Doctors"
+               asp-action="Index"
+               class="hero-btn primary-btn">
+                <span>Book an Appointment</span>
+                <strong>→</strong>
+            </a>
+
+            <a asp-controller="Appointments"
+               asp-action="Index"
+               class="hero-btn secondary-btn">
+                <span>View Appointments</span>
+                <strong>→</strong>
+            </a>
+
+        </div>
+
+        <div class="hero-features">
+            <div>
+                <strong>✓</strong>
+                Easy Booking
+            </div>
+
+            <div>
+                <strong>✓</strong>
+                Trusted Doctors
+            </div>
+
+            <div>
+                <strong>✓</strong>
+                Simple Management
+            </div>
+        </div>
+
+    </div>
+
+</div>

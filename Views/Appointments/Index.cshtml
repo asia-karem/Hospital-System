@@ -1,4 +1,5 @@
-﻿@model List<HospitalSystem.Models.Appointment>
+﻿
+@model List<HospitalSystem.Models.Appointment>
 
 @{
     ViewData["Title"] = "Appointments";
@@ -8,31 +9,41 @@
 
     <h2 class="text-center mb-4">Booked Appointments</h2>
 
-    <table class="table table-bordered table-striped">
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-info text-center">
+            No appointments booked yet.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover text-center">
 
-        <thead>
-            <tr>
-                <th>Patient Name</th>
-                <th>Doctor Name</th>
-                <th>Specialization</th>
-                <th>Date</th>
-                <th>Time</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var appointment in Model)
-            {
+            <thead class="table-primary">
                 <tr>
-                    <td>@appointment.PatientName</td>
-                    <td>Dr. @appointment.Doctor.Name</td>
-                    <td>@appointment.Doctor.Specialization</td>
-                    <td>@appointment.Date.ToString("dd/MM/yyyy")</td>
-                    <td>@appointment.Time</td>
+                    <th>Patient Name</th>
+                    <th>Doctor Name</th>
+                    <th>Specialization</th>
+                    <th>Date</th>
+                    <th>Time</th>
                 </tr>
-            }
-        </tbody>
+            </thead>
 
-    </table>
+            <tbody>
+                @foreach (var appointment in Model)
+                {
+                    <tr>
+                        <td>@appointment.PatientName</td>
+                        <td>Dr. @appointment.Doctor.Name</td>
+                        <td>@appointment.Doctor.Specialization</td>
+                        <td>@appointment.Date.ToString("dd/MM/yyyy")</td>
+                        <td>@appointment.Time</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    }
 
 </div>
+

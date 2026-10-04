@@ -1,99 +1,227 @@
-﻿@model HospitalSystem.Models.Appointment
+﻿
+@model HospitalSystem.Models.Appointment
 
 @{
     ViewData["Title"] = "Book Appointment";
     var doctor = ViewBag.Doctor as HospitalSystem.Models.Doctor;
 }
 
-<div class="container mt-4">
+<div class="booking-page">
 
-    <h2>Book Appointment</h2>
+    <div class="booking-container">
 
-    <div class="card p-4">
+        <!-- Doctor Section -->
+        <div class="doctor-preview">
 
-        <h4>Doctor: Dr. @doctor.Name</h4>
+            <div class="doctor-preview-image">
 
-        <p>Specialization: @doctor.Specialization</p>
+                @if (!string.IsNullOrEmpty(doctor.Image))
+                {
+                    <img src="~/images/doctors/@doctor.Image"
+                         alt="Dr. @doctor.Name" />
+                }
+                else
+                {
+                    <div class="doctor-placeholder">
+                        +
+                    </div>
+                }
 
-        <form asp-action="Book" method="post">
+                <span class="available-badge">
+                    ● Available
+                </span>
 
-            <input type="hidden"
-                   asp-for="DoctorId"
-                   value="@doctor.Id" />
-
-            <div class="mb-3">
-                <label>Patient Name</label>
-                <input asp-for="PatientName"
-                       class="form-control"
-                       placeholder="Enter patient name" />
             </div>
 
-            <div class="mb-3">
-                <label>Date</label>
-                <input asp-for="Date"
-                       type="date"
-                       class="form-control"
-                       id="appointmentDate" />
+            <div class="doctor-preview-info">
+
+                <span class="small-title">
+                    YOUR SELECTED DOCTOR
+                </span>
+
+                <h2>
+                    Dr. @doctor.Name
+                </h2>
+
+                <p class="specialization">
+                    @doctor.Specialization
+                </p>
+
+                <div class="doctor-status">
+                    <span>✓</span>
+                    Available for appointments
+                </div>
+
             </div>
 
-            <div class="mb-3">
-                <label>Time</label>
+        </div>
 
-                <select asp-for="Time" class="form-control">
 
-                    <option value="">Select Time</option>
+        <!-- Booking Form -->
+        <div class="booking-form">
 
-                    <option value="09:00:00">9:00 AM</option>
-                    <option value="09:30:00">9:30 AM</option>
+            <div class="booking-header">
 
-                    <option value="10:00:00">10:00 AM</option>
-                    <option value="10:30:00">10:30 AM</option>
+                <span class="small-title">
+                    APPOINTMENT DETAILS
+                </span>
 
-                    <option value="11:00:00">11:00 AM</option>
-                    <option value="11:30:00">11:30 AM</option>
+                <h1>Book Your Appointment</h1>
 
-                    <option value="12:00:00">12:00 PM</option>
-                    <option value="12:30:00">12:30 PM</option>
+                <p>
+                    Please enter your information and select your
+                    preferred date and time.
+                </p>
 
-                    <option value="13:00:00">1:00 PM</option>
-                    <option value="13:30:00">1:30 PM</option>
-
-                    <option value="14:00:00">2:00 PM</option>
-                    <option value="14:30:00">2:30 PM</option>
-
-                    <option value="15:00:00">3:00 PM</option>
-                    <option value="15:30:00">3:30 PM</option>
-
-                    <option value="16:00:00">4:00 PM</option>
-                    <option value="16:30:00">4:30 PM</option>
-
-                </select>
             </div>
 
-            <button type="submit"
-                    class="btn btn-success">
-                Book Appointment
-            </button>
 
-        </form>
+            <form asp-action="Book" method="post">
+
+                <input type="hidden"
+                       asp-for="DoctorId"
+                       value="@doctor.Id" />
+
+
+                <!-- Patient Name -->
+                <div class="form-group">
+
+                    <label class="booking-label">
+                        Patient Name
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">👤</span>
+
+                        <input asp-for="PatientName"
+                               class="booking-input"
+                               placeholder="Enter your full name" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- Date -->
+                <div class="form-group">
+
+                    <label class="booking-label">
+                        Appointment Date
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">📅</span>
+
+                        <input asp-for="Date"
+                               type="date"
+                               class="booking-input"
+                               id="appointmentDate" />
+
+                    </div>
+
+                    <small class="input-hint">
+                        Appointments are available Sunday to Thursday.
+                    </small>
+
+                </div>
+
+
+                <!-- Time -->
+                <div class="form-group">
+
+                    <label class="booking-label">
+                        Appointment Time
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">◷</span>
+
+                        <select asp-for="Time"
+                                class="booking-input booking-select">
+
+                            <option value="">
+                                Select your preferred time
+                            </option>
+
+                            <option value="09:00:00">9:00 AM</option>
+                            <option value="09:30:00">9:30 AM</option>
+
+                            <option value="10:00:00">10:00 AM</option>
+                            <option value="10:30:00">10:30 AM</option>
+
+                            <option value="11:00:00">11:00 AM</option>
+                            <option value="11:30:00">11:30 AM</option>
+
+                            <option value="12:00:00">12:00 PM</option>
+                            <option value="12:30:00">12:30 PM</option>
+
+                            <option value="13:00:00">1:00 PM</option>
+                            <option value="13:30:00">1:30 PM</option>
+
+                            <option value="14:00:00">2:00 PM</option>
+                            <option value="14:30:00">2:30 PM</option>
+
+                            <option value="15:00:00">3:00 PM</option>
+                            <option value="15:30:00">3:30 PM</option>
+
+                            <option value="16:00:00">4:00 PM</option>
+                            <option value="16:30:00">4:30 PM</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Submit -->
+                <button type="submit"
+                        class="premium-book-btn">
+
+                    <span>Confirm Appointment</span>
+
+                    <strong>→</strong>
+
+                </button>
+
+                <p class="secure-text">
+                    ✓ Your appointment information is handled securely.
+                </p>
+
+            </form>
+
+        </div>
 
     </div>
 
 </div>
 
+
 <script>
-    document.getElementById("appointmentDate").addEventListener("change", function () {
 
-        var date = new Date(this.value);
-        var day = date.getDay();
+    document.getElementById("appointmentDate")
+        .addEventListener("change", function () {
 
-        // Friday = 5
-        // Saturday = 6
+            var date = new Date(this.value);
+            var day = date.getDay();
 
-        if (day === 5 || day === 6) {
-            alert("Appointments are available only from Sunday to Thursday.");
-            this.value = "";
-        }
+            // Friday = 5
+            // Saturday = 6
 
-    });
+            if (day === 5 || day === 6) {
+
+                alert(
+                    "Appointments are available only from Sunday to Thursday."
+                );
+
+                this.value = "";
+            }
+
+        });
+
 </script>
+```
+

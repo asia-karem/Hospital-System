@@ -1,119 +1,207 @@
-﻿@model List<HospitalSystem.Models.Doctor>
+﻿```cshtml
+@model List<HospitalSystem.Models.Doctor>
 
 @{
-    ViewData["Title"] = "Doctors";
+    ViewData["Title"] = "Our Doctors";
 }
 
-<div class="container mt-4">
+<div class="doctors-page">
 
-    <h2 class="text-center mb-4">Our Doctors</h2>
+    <!-- Header -->
+    <div class="doctors-header">
 
-    <!-- Filters -->
-    <form method="get" class="row mb-4">
+        <span class="section-label">OUR MEDICAL TEAM</span>
 
-        <div class="col-md-4">
-            <input type="text"
-                   name="doctorName"
-                   value="@ViewBag.DoctorName"
-                   class="form-control"
-                   placeholder="Search by doctor name" />
+        <h1>Meet Our Doctors</h1>
+
+        <p>
+            Find the right doctor for your needs and book your appointment easily.
+        </p>
+
+    </div>
+
+
+    <!-- Search & Filter -->
+    <div class="container">
+
+        <div class="search-box">
+
+            <form method="get" class="row g-3 align-items-end">
+
+                <div class="col-md-5">
+
+                    <label class="filter-label">
+                        Doctor Name
+                    </label>
+
+                    <input type="text"
+                           name="doctorName"
+                           value="@ViewBag.DoctorName"
+                           class="form-control search-input"
+                           placeholder="Search by doctor name..." />
+
+                </div>
+
+
+                <div class="col-md-5">
+
+                    <label class="filter-label">
+                        Specialization
+                    </label>
+
+                    <select name="specialization"
+                            class="form-select search-input">
+
+                        <option value="">All Specializations</option>
+
+                        @foreach (var item in ViewBag.Specializations)
+                        {
+                            <option value="@item"
+                                    selected="@(ViewBag.Specialization == item)">
+                                @item
+                            </option>
+                        }
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-2">
+
+                    <button type="submit"
+                            class="search-btn w-100">
+                        Search
+                    </button>
+
+                </div>
+
+            </form>
+
         </div>
 
-        <div class="col-md-4">
-            <select name="specialization" class="form-control">
 
-                <option value="">All Specializations</option>
+        <!-- Doctors Cards -->
+        <div class="row g-4">
 
-                @foreach (var item in ViewBag.Specializations)
-                {
-                    <option value="@item"
-                            selected="@(ViewBag.Specialization == item)">
-                        @item
-                    </option>
-                }
+            @foreach (var doctor in Model)
+            {
+                <div class="col-md-6 col-lg-4">
 
-            </select>
-        </div>
+                    <div class="doctor-card">
 
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary">
-                Search
-            </button>
-        </div>
+                        <!-- Doctor Image -->
+                        <div class="doctor-image-container">
 
-    </form>
+                            <img src="~/images/doctors/@doctor.Image"
+                                 alt="Dr. @doctor.Name"
+                                 class="doctor-image" />
+
+                            <div class="doctor-badge">
+                                Available
+                            </div>
+
+                        </div>
 
 
-    <!-- Doctors -->
-    <div class="row">
+                        <!-- Doctor Information -->
+                        <div class="doctor-info">
 
-        @foreach (var doctor in Model)
-        {
-            <div class="col-md-4 mb-4">
+                            <span class="doctor-title">
+                                MEDICAL SPECIALIST
+                            </span>
 
-                <div class="card shadow">
+                            <h3>
+                                Dr. @doctor.Name
+                            </h3>
 
-                    <img src="~/images/doctors/@doctor.Image"
-                         class="card-img-top"
-                         style="height:250px; object-fit:cover;" />
+                            <p class="doctor-specialization">
+                                @doctor.Specialization
+                            </p>
 
-                    <div class="card-body">
 
-                        <h5 class="card-title">
-                            Dr. @doctor.Name
-                        </h5>
+                            <div class="doctor-line"></div>
 
-                        <p class="card-text">
-                            @doctor.Specialization
-                        </p>
 
-                        <a asp-controller="Appointments"
-                           asp-action="Book"
-                           asp-route-doctorId="@doctor.Id"
-                           class="btn btn-success">
-                            Book Appointment
-                        </a>
+                            <a asp-controller="Appointments"
+                               asp-action="Book"
+                               asp-route-doctorId="@doctor.Id"
+                               class="book-btn">
+
+                                Book Appointment
+
+                                <span>→</span>
+
+                            </a>
+
+                        </div>
 
                     </div>
 
                 </div>
+            }
+
+        </div>
+
+
+        <!-- No Doctors -->
+        @if (Model.Count == 0)
+        {
+            <div class="no-doctors">
+
+                <h3>No Doctors Found</h3>
+
+                <p>
+                    Try searching with a different name or specialization.
+                </p>
 
             </div>
         }
 
-    </div>
+
+        <!-- Pagination -->
+        <div class="pagination-area">
+
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <a class="page-btn"
+                   asp-action="Index"
+                   asp-route-page="@(ViewBag.CurrentPage - 1)"
+                   asp-route-doctorName="@ViewBag.DoctorName"
+                   asp-route-specialization="@ViewBag.Specialization">
+
+                    ← Previous
+
+                </a>
+            }
 
 
-    <!-- Pagination -->
-    <div class="text-center mt-4">
+            <div class="page-number">
 
-        @if (ViewBag.CurrentPage > 1)
-        {
-            <a class="btn btn-secondary"
-               asp-action="Index"
-               asp-route-page="@(ViewBag.CurrentPage - 1)"
-               asp-route-doctorName="@ViewBag.DoctorName"
-               asp-route-specialization="@ViewBag.Specialization">
-                Previous
-            </a>
-        }
+                Page
+                <strong>@ViewBag.CurrentPage</strong>
+                of
+                <strong>@ViewBag.TotalPages</strong>
 
-        <span class="mx-3">
-            Page @ViewBag.CurrentPage
-            of @ViewBag.TotalPages
-        </span>
+            </div>
 
-        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
-        {
-            <a class="btn btn-secondary"
-               asp-action="Index"
-               asp-route-page="@(ViewBag.CurrentPage + 1)"
-               asp-route-doctorName="@ViewBag.DoctorName"
-               asp-route-specialization="@ViewBag.Specialization">
-                Next
-            </a>
-        }
+
+            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+            {
+                <a class="page-btn"
+                   asp-action="Index"
+                   asp-route-page="@(ViewBag.CurrentPage + 1)"
+                   asp-route-doctorName="@ViewBag.DoctorName"
+                   asp-route-specialization="@ViewBag.Specialization">
+
+                    Next →
+
+                </a>
+            }
+
+        </div>
 
     </div>
 
 </div>
+```
